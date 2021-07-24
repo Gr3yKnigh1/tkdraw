@@ -40,6 +40,8 @@ class Sketchpad(tk.Canvas):
 		self.bind("<MouseWheel>", self.change_width)
 		self.master.master.bind("s", self.save_canvas)
 
+
+	# ToDO(Gr3yKnigh1): Replace with square instead of line
 	def add_line(self, event) -> None:
 		if self.is_drawing:
 			self.create_line(self.last_pos[0], self.last_pos[1], event.x, event.y, 
