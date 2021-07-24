@@ -62,6 +62,8 @@ class Sketchpad(tk.Canvas):
 	def choose_color(self, event) -> None:
 		print(1)
 		color_code = tk.colorchooser.askcolor(title ="Choose color")
+		if color_code is None:
+			return
 		self.stroke.color = Color(*color_code[0])
 
 	def change_width(self, event) -> None:
