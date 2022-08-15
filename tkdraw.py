@@ -1,13 +1,39 @@
 from __future__ import annotations
-from typing import Optional
 
 import tkinter as tk
-import tkinter.colorchooser
-import tkinter.filedialog
 
-from color import Color
-from stroke import Stroke
-from utils import sign
+
+def sign(x: int) -> int:
+	return x / abs(x)
+
+
+class Color(object):
+
+	r: int
+	g: int
+	b: int
+
+	def __init__(self, r: int, g: int, b: int) -> None:
+		self.r = r
+		self.g = g
+		self.b = b
+
+	def to_code(self) -> str:
+		return Color.get_code(self.r, self.g, self.b)
+
+	@staticmethod
+	def get_code(r: int, g: int, b: int) -> str:
+		return f'#{r:02x}{g:02x}{b:02x}'
+
+
+class Stroke(object):
+
+	color: Color
+	width: int
+
+	def __init__(self) -> None:
+		self.color = Color(0, 0, 0)
+		self.width = 1
 
 
 class Sketchpad(tk.Canvas):
@@ -81,3 +107,32 @@ class Sketchpad(tk.Canvas):
 		file = tk.filedialog.asksaveasfile(defaultextension = '.jpg')
 		img = Image.open(fev)
 		img.save(file + ".jpg")
+
+
+class Application(tk.Frame):
+
+	def __init__(self, master: tk.Tk=None) -> None:
+		super().__init__(master)
+
+		self.master.title("Sketchpad")
+		self.master.geometry("900x600")
+		self.on_widgets_load()
+		self.pack()
+
+
+	def on_widgets_load(self) -> None:
+		c = Sketchpad(master=self, width=900, height=600, bg="white")
+		c.pack()
+
+		# Bindings
+		self.master.bind("<Escape>", lambda event: self.master.destroy())
+
+
+def main() -> None:
+	root = tk.Tk()
+	app = Application(master=root)
+	app.mainloop()
+	
+
+if (__name__ == "__main__"):
+	main()
